@@ -36,6 +36,7 @@
                     <v-alert
                         v-if="templatesOnFile.length"
                         type="info"
+                        color="inherit"
                         outlined
                         border
                         variant="flat"
@@ -45,9 +46,8 @@
                         <ul>
                             <li v-for="template in templatesOnFile" :key="template">
                                 {{ template }}
-                                <p v-if="bringValues">
-                                    {{ JSON.stringify()}}
-                                </p>
+                                <vue-json-pretty :data="fileData[template]" showLength />
+
                             </li>
                         </ul>
                     </v-alert>
@@ -71,6 +71,8 @@
 import {ref, watch} from "vue";
 import {useSwal} from "../../../composables/useSwal";
 import { axiosInstance } from "../../../shared/axios";
+import VueJsonPretty from 'vue-json-pretty';
+import 'vue-json-pretty/lib/styles.css';
 const file = ref(null)
 const formValid = ref(false)
 
@@ -79,7 +81,7 @@ const templatesOnFile = ref([])
 
 const requiredRule = [v => !!v || 'Field is required']
 const gettingTemplates = ref(false)
-const bringValues = ref(false)
+const bringValues = ref(true)
 const fileData = ref({})
 const validateFileType = async ({ target }) => {
     const [{ type }] = target.files
