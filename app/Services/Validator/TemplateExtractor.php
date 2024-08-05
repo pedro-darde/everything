@@ -32,7 +32,7 @@ class TemplateExtractor {
            } else {
                $lastCreatedTemplate = array_keys($this->templates)[count($this->templates) - 1];
                $templateInfo = $this->templates[$lastCreatedTemplate];
-               $values = array_map('trim', explode(";", $templateInfo['campos']));
+               $values = array_map('trim', explode(";", $row));
                $this->templates[$lastCreatedTemplate]['itens'][] = array_combine(
                    explode(";", $templateInfo['campos']),
                    $values

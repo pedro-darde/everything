@@ -17,7 +17,9 @@
         "@vitejs/plugin-vue": "^5.0.4",
         "lodash": "^4.17.21",
         "sweetalert2": "^11.10.8",
+        "v-jsoneditor": "^1.4.5",
         "vue": "^3.4.23",
+        "vue-json-pretty": "^2.4.0",
         "vuetify": "^3.3.12"
     }
 }
