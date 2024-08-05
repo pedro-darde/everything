@@ -1,17 +1,21 @@
 <template>
     <v-container >
-        <v-row justify="space-between" style="padding: 15px">
-            <h1> Validator </h1>
-            <v-row>
-                <v-btn color="secondary" @click="goToCreate">
-                    Create
-                    <v-icon> mdi-plus </v-icon>
-                </v-btn>
-                <v-btn color="primary" @click="goToImport">
-                    Import
-                    <v-icon> mdi-plus </v-icon>
-                </v-btn>
-            </v-row>
+        <v-row  style="padding: 15px; gap: 5px" >
+            <div class="flex-grow-1">
+                <h1> Validator </h1>
+            </div>
+            <v-btn color="secondary" @click="goToCreate">
+                Create
+                <v-icon> mdi-plus </v-icon>
+            </v-btn>
+            <v-btn color="secondary" @click="goToCreateJSON">
+                Create by JSON
+                <v-icon> mdi-plus </v-icon>
+            </v-btn>
+            <v-btn color="primary" @click="goToImport">
+                Import
+                <v-icon> mdi-plus </v-icon>
+            </v-btn>
 
         </v-row>
         <v-divider></v-divider>
@@ -32,5 +36,9 @@
     }
     const goToImport = () => {
         router.visit('/validator/import/csv')
+    }
+
+    const goToCreateJSON = () => {
+        router.visit('/validator/createByJson')
     }
 </script>

@@ -12,7 +12,11 @@ class DashboardController extends Controller
             'CSV Validator And Validator' => [
                 'description' => 'This system allows you to import CSV files and validate them.',
                 'route' => 'validator'
-            ]
+            ],
+            'Movies System' => [
+                'description' => 'This system allows you to view movies.',
+                'route' => 'movies'
+            ],
         ];
         return Inertia::render('Root/Index', [
             'availableSystems' => $availableSystems

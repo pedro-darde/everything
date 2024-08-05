@@ -12,11 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function ($router) {
             \Illuminate\Support\Facades\Route::name('validator.')
                 ->group(base_path('routes/validator.php'));
+            \Illuminate\Support\Facades\Route::name('movie.')
+                ->group(base_path('routes/movie.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
     })->create();

@@ -8,7 +8,7 @@
             </v-btn>
         </v-row>
 
-        <CreateValidatorTemplate @save="saveForm" :template="template" :is-edit="true"/>
+        <CreateValidatorTemplate @save="saveForm" :template="template" :is-edit="true" :references-fields="referencesFields"/>
     </v-container>
 </template>
 
@@ -18,10 +18,12 @@ import {router} from "@inertiajs/vue3";
 import {templateValidatorService} from "../../../services/crud/TemplateValidatorService.js";
 
 
-defineProps({
-    template: Object,
-    required: true
-})
+defineProps(
+    {
+        template: Object,
+        referencesFields: Array
+    }
+)
 const goBack = () => {
     router.visit('/validator')
 }
