@@ -21,8 +21,8 @@
                     {{ formatDate(item.updated_at) }}
                 </td>
                 <td class="text-center">
-                    <div class="d-flex flex-row ga-2 justify-center flex-wrap">
-                        <v-chip v-for="field in item.fields"  :text="field.id + ' - ' +  field.name"/>
+                    <div class="d-flex flex-row ga-1 justify-center flex-wrap">
+                        <v-chip v-for="field in item.fields"  :text="field.position + ' - ' +  field.name"/>
                     </div>
                 </td>
                 <td class="text-center">

@@ -24,6 +24,11 @@ trait RuleCreator
                 $fieldRules[] = "max_length:{$field->max_length}";
             }
 
+            if ($field->refers_to) {
+                $referenceField = $field->reference;
+                $fieldRules[] = "exists:{$field->refers_to}";
+            }
+
             static::$RULES[$field->name] = implode("|", $fieldRules);
         }
     }

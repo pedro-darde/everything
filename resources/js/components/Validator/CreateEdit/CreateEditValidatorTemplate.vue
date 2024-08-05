@@ -67,7 +67,7 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="10">
-                                        <v-text-field label="Refers To" placeholder="Something" v-model="field.refers_to"></v-text-field>
+                                        <v-autocomplete label="Refers To" placeholder="Something" v-model="field.refers_to" :items="referencesFields" item-title="name" item-value="id"/>
                                     </v-col>
                                     <v-col cols="2" >
                                         <v-checkbox label="Unique" v-model="field.unique"></v-checkbox>
@@ -106,7 +106,11 @@ const fieldTypes = [
         value: "string"
     },
     {
-        name: "Numeric",
+        name: "Integer",
+        value: "int"
+    },
+    {
+        name: "Numeric (Decimal or Float)",
         value: "number"
     },
     {
@@ -114,8 +118,16 @@ const fieldTypes = [
         value: "date"
     },
     {
+        name: "Date Time",
+        value: "datetime"
+    },
+    {
         name: "Boolean",
         value: "boolean"
+    },
+    {
+        name: "Huge Text",
+        value: "text"
     }
 ]
 
@@ -123,7 +135,7 @@ const nameRule = [v => !!v || 'Name is required']
 
 const requiredRule = [v => !!v || 'Field is required']
 
-const { template, isEdit } = defineProps({
+const { template, isEdit, referencesFields } = defineProps({
     template: {
         type: Object,
         required: false,
@@ -148,12 +160,18 @@ const { template, isEdit } = defineProps({
     isEdit: {
         type: Boolean,
         default: false
+    },
+    referencesFields: {
+        type: Array,
+        default: []
     }
 })
 
 const form = ref({
     ...template
 })
+
+console.log(referencesFields)
 
 
 const fieldsToDelete = ref([])
@@ -164,22 +182,17 @@ const hasToShowRemoveField = (field) => {
     if (form.value.fields.length === 1) {
         return false
     }
-    const indexOf = form.value.fields.indexOf(field);
-    return indexOf === form.value.fields.length - 1
+    return form.value.fields.indexOf(field) === form.value.fields.length - 1
 }
 
-const removeField = (index ) => {
-    if (isEdit) {
-        fieldsToDelete.value.push(form.value.fields[index].id)
-        form.value.fields.splice(index, 1)
-
-        if (form.value.fields.length === 0) {
-            addField()
-        }
-
-        return
+const removeField = (index) => {
+    if (isEdit && form.value.fields[index].id) {
+        fieldsToDelete.value.push(form.value.fields[index].id);
     }
-    form.value.fields.splice(index, 1)
+    form.value.fields.splice(index, 1);
+    if (!form.value.fields.length) {
+        addField();
+    }
 }
 
 const addField = () => {

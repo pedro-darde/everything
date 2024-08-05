@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'IMDB_KEY' => env('IMBD_API_KEY'),
 ];

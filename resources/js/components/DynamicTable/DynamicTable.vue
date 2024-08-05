@@ -175,7 +175,6 @@ const requestMore = async ({page, itemsPerPage, sortBy, searchString}) => {
 }
 
 const loadMoreItens = ({page, itemsPerPage, sortBy}) => {
-    if (page === serverPage.value) return
     if (searchString.value) {
         withThrottleLoad({page, itemsPerPage, sortBy})
     } else {

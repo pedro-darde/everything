@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\CreateTablesForTemplate;
 use App\Models\TemplateValidator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,7 @@ class CreateTemplateValidatorService
         'fields.*.label' => 'required:string',
         'fields.*.type' => 'required:string',
         'fields.*.position' => 'required:integer',
-        'fields.*.error_message' => 'required:string',
+        'fields.*.error_message' => '   string',
         'fields.*.required' => 'boolean',
         'fields.*.default_value' => 'nullable|string',
         'fields.*.min_length' => 'nullable|integer',
@@ -25,6 +26,9 @@ class CreateTemplateValidatorService
         'fields.*.refers_to' => 'nullable|integer',
     ];
 
+    /**
+     * @throws \Exception
+     */
     public function create(array $values)
     {
         $dataValidated = Validator::validate($values, self::$RULES);
@@ -36,11 +40,13 @@ class CreateTemplateValidatorService
             ]);
             $fields = $dataValidated['fields'];
             $template->fields()->createMany($fields);
+
             DB::commit();
+            CreateTablesForTemplate::dispatchSync($template);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            throw new \Exception($e->getMessage());
+            throw $e;
         }
 
     }
