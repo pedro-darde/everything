@@ -1,35 +1,23 @@
 import './bootstrap';
-import {duplicateInitialPageProps, initAuthInterceptor, initInertiaApp} from "./shared/setup";
-initInertiaApp({
-    pages: import.meta.glob('./pages/**/*.vue', { eager: true }),
-    onSetup(appInstance, store, props) {
-        initAuthInterceptor(store)
-        duplicateInitialPageProps(store, props)
+import '../css/app.css';
+
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .mount(el);
     },
-    mixin: {
-        methods: {
-            devicePlatform() {
-                const userAgent =
-                    navigator.userAgent || navigator.vendor || window.opera
-
-                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    return 'iOS'
-                }
-
-                if (/android/i.test(userAgent)) {
-                    return 'Android'
-                }
-
-                return 'Desktop'
-            },
-            isNativeMapAppAvailable() {
-                const platform = this.devicePlatform()
-
-                return platform === 'iOS' || platform === 'Android'
-            },
-        },
+    progress: {
+        color: '#4B5563',
     },
-}).then((r) => {
-    console.log('Inertia app created')
-})
-
+});
